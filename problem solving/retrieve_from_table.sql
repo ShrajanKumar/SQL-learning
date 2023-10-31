@@ -472,3 +472,4 @@ select * from emp_details where emp_lname='Snares';
 # 33. write a SQL query to retrieve the details of the employees who work in the department 57.
 
 select * from emp_details where emp_dept=57;
+
