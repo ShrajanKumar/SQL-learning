@@ -80,12 +80,87 @@ WHERE
 SELECT * FROM orders WHERE NOT ((ord_date = '2012-09-10' AND salesman_id > 5005) OR (purch_amnt > 1000));
 
 
-       
+      
 #7. From the following table, write a SQL query to find the details of those 
-#salespeople whose commissions range from 0.10 to0.12. Return salesman_id, name, city, and commission. 
+#salespeople whose commissions range from 0.10 to 0.12. Return salesman_id, name, city, and commission. 
 #Sample table : salesman 
 select * from salesman  where commission between 0.10 and 0.12;
 
 #or 
 select * from salesman  where  commission <=0.12 and commission>=0.10;
+
+#8. From the following table, write a SQL query to find details of all orders with a 
+#purchase amount less than 200 or 
+#exclude orders with an order date greater than or equal to '2012-02-10' and 
+#a customer ID less than 3009. Return ord_no, purch_amt, ord_date, customer_id and salesman_id.
+#Sample table : orders
+
+SELECT 
+    *
+FROM
+    orders
+WHERE
+    purch_amnt < 200
+        OR Not((ord_date >= '2012-02-10'
+        AND customer_id < 3009));
+#or 
+SELECT 
+    *
+FROM
+    orders
+WHERE
+    purch_amnt < 200
+        OR (ord_date < '2021-02-10'
+        AND customer_id >= 3009);
+
+#9. From the following table, write a SQL query to find all orders that meet the following conditions. 
+#Exclude combinations of order date equal to '2012-08-17' or customer ID greater than 3005 
+#and purchase amount less than 1000.
+#Sample table : orders
+SELECT 
+    *
+FROM
+    orders
+WHERE
+    NOT ((ord_date = '2012-08-17'
+        OR customer_id > 3005)
+        AND purch_amnt < 1000)
+ORDER BY ord_no ASC;
+
+#10. Write a SQL query that displays order number, purchase amount, and the achieved and 
+#unachieved percentage (%) for those orders that exceed 50% of the target value of 6000.  
+#Sample table: orders
+SELECT 
+    ord_no,
+    purch_amnt,
+    (100 * purch_amnt) / 6000 AS 'achieved %',
+    (100 * (6000 - purch_amnt) / 6000) AS 'Unachieved %'
+FROM
+    orders
+WHERE
+    purch_amnt > (6000 * 50) / 100;
+
+#11. From the following table, write a SQL query to find the details of all employees whose last name is ‘Dosni’ 
+#or ‘Mardy’. Return emp_idno, emp_fname, emp_lname, and emp_dept.  
+#Sample table : emp_details
+
+SELECT 
+    *
+FROM
+    emp_details
+WHERE
+    emp_lname = 'Mardy'
+        OR emp_lname = 'Dosni';
+
+
+#12. From the following table, write a SQL query to find the employees who work at depart 47 or 63. 
+#Return emp_idno, emp_fname, emp_lname, and emp_dept.  
+#Sample table : emp_details
+
+SELECT 
+    *
+FROM
+    emp_details
+WHERE
+    emp_dept = 47 OR emp_dept = 63;
 
