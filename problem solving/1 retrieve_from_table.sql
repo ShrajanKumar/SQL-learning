@@ -325,7 +325,7 @@ FROM
 WHERE
     year = 1970
 ORDER BY CASE
-    WHEN subject NOT IN ('Chemistry' , 'Economics') THEN 0
+    WHEN NOT subject   IN ('Chemistry' , 'Economics') THEN 0
     ELSE 1
 END ASC , subject ASC
 ; 
