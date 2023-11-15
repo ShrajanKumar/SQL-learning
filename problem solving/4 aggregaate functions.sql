@@ -1,0 +1,211 @@
+#1. From the following table, write a SQL query to calculate total purchase amount of all orders. Return total purchase amount.
+#Sample table: orders
+SELECT 
+    SUM(purch_amnt) AS total_purchase_amount
+FROM
+    orders;
+
+
+#2. From the following table, write a SQL query to calculate the average purchase amount of all orders. Return average purchase amount. 
+#Sample table: orders
+SELECT 
+    AVG(purch_amnt) AS average_purchase_amount
+FROM
+    orders;
+
+#3. From the following table, write a SQL query that counts the number of unique salespeople. Return number of salespeople.  
+#Sample table: orders
+select count(distinct salesman_id) from orders;
+
+#4. From the following table, write a SQL query to count the number of customers. Return number of customers.  
+#Sample table: customer
+select count(*) from customer;
+
+#5. From the following table, write a SQL query to determine the number of customers who received at least one grade for their activity.  
+#Sample table: customer
+SELECT 
+    *
+FROM
+    customer
+WHERE
+    grade >= 1.0;
+
+
+#6. From the following table, write a SQL query to find the maximum purchase amount.  
+#Sample table: orders
+select max(purch_amnt) from orders;
+
+
+#7. From the following table, write a SQL query to find the minimum purchase amount. 
+#Sample table: orders
+
+select min(purch_amnt) from orders;
+
+
+#8. From the following table, write a SQL query to find the highest grade of the customers in each city. Return city, maximum grade.  
+#Sample table: customer
+SELECT 
+    city, MAX(grade)
+FROM
+    customer
+GROUP BY city;
+
+
+#9. From the following table, write a SQL query to find the highest purchase amount ordered by each customer. Return customer ID, maximum purchase amount. 
+#Sample table: orders
+SELECT 
+    customer_id, MAX(purch_amnt)
+FROM
+    orders
+GROUP BY customer_id order by customer_id;
+
+
+
+#10. From the following table, write a SQL query to find the highest purchase amount ordered by each customer on a particular date. Return, order date and highest purchase amount.
+#Sample table: orders
+SELECT 
+    customer_id, ord_date, MAX(purch_amnt)
+FROM
+    orders
+GROUP BY customer_id , ord_date order by customer_id;
+
+
+#11. From the following table, write a SQL query to determine the highest purchase amount made by each salesperson on '2012-08-17'. Return salesperson ID, purchase amount 
+#Sample table: orders
+SELECT 
+    salesman_id, MAX(purch_amnt)
+FROM
+    orders
+WHERE
+    ord_date = '2012-08-17'
+GROUP BY salesman_id;
+
+#12. From the following table, write a SQL query to find the highest order (purchase) 
+#amount by each customer on a particular order date. 
+#Filter the result by highest order (purchase) amount above 2000.00. 
+#Return customer id, order date and maximum purchase amount.
+#Sample table: orders
+SELECT 
+    customer_id, ord_date, MAX(purch_amnt)
+FROM
+    orders
+GROUP BY customer_id , ord_date
+HAVING MAX(purch_amnt) >= 2000.00;
+
+
+#13. From the following table, write a SQL query to find the maximum order (purchase) amount in the range 2000 - 6000
+ #(Begin and end values are included.) by combination of each customer and order date. 
+ #Return customer id, order date and maximum purchase amount.
+#Sample table: orders
+SELECT 
+    customer_id, ord_date, MAX(purch_amnt)
+FROM
+    orders
+GROUP BY customer_id , ord_date
+HAVING MAX(purch_amnt) BETWEEN 2000 AND 6000 order by customer_id;
+
+#14. From the following table, write a SQL query to find the maximum order (purchase) amount based on the combination of each customer and order date. Filter the rows for maximum order (purchase) amount is either 2000, 3000, 5760, 6000. Return customer id, order date and maximum purchase amount.
+#Sample table: orders
+SELECT 
+    customer_id, ord_date, MAX(purch_amnt)
+FROM
+    orders
+GROUP BY customer_id , ord_date
+HAVING MAX(purch_amnt) IN (2000 , 3000, 5760, 6000)
+ORDER BY customer_id;
+
+#15. From the following table, write a SQL query to determine the maximum order amount for each customer. The customer ID should be in the range 3002 and 3007(Begin and end values are included.). Return customer id and maximum purchase amount.
+#Sample table: orders
+SELECT 
+    customer_id, MAX(purch_amnt)
+FROM
+    orders
+WHERE
+    customer_id BETWEEN 3002 AND 3007
+GROUP BY customer_id;
+
+#16. From the following table, write a SQL query to find the maximum order (purchase) amount for each customer. The customer ID should be in the range 3002 and 3007(Begin and end values are included.). Filter the rows for maximum order (purchase) amount is higher than 1000. Return customer id and maximum purchase amount.
+#Sample table: orders
+SELECT 
+    customer_id, MAX(purch_amnt)
+FROM
+    orders
+WHERE
+    customer_id BETWEEN 3002 AND 3007
+GROUP BY customer_id
+HAVING MAX(purch_amnt) > 1000;
+
+#17. From the following table, write a SQL query to determine the maximum order (purchase) amount generated by each salesperson. Filter the rows for the salesperson ID is in the range 5003 and 5008 (Begin and end values are included.). Return salesperson id and maximum purchase amount.
+#Sample table: orders
+SELECT 
+    salesman_id, MAX(purch_amnt)
+FROM
+    orders
+WHERE
+    salesman_id BETWEEN 5003 AND 5008
+GROUP BY salesman_id;
+
+
+
+
+#18. From the following table, write a SQL query to count all the orders generated on '2012-08-17'. Return number of orders.
+#Sample table: orders
+select count(*) from orders where ord_date='2012-08-17';
+
+#19. From the following table, write a SQL query to count the number of salespeople in a city. Return number of salespeople.
+#Sample table: salesman
+SELECT 
+     COUNT( salesman_id)
+FROM
+    salesman
+;
+
+#20. From the following table, write a SQL query to count the number of orders based on the combination of each order date and salesperson. Return order date, salesperson id.
+#Sample table: orders
+SELECT 
+    salesman_id, ord_date, COUNT(*)
+FROM
+    orders
+GROUP BY salesman_id , ord_date order by salesman_id , ord_date;
+
+#21. From the following table, write a SQL query to calculate the average product price. Return average product price.
+#Sample table: item_mast
+select avg(pro_price) from item_mast;
+
+#22. From the following table, write a SQL query to count the number of products whose price are higher than or equal to 350. Return number of products.
+#Sample table: item_mast
+select count(*) from item_mast where pro_price>=350;
+
+
+#23. From the following table, write a SQL query to compute the average price for unique companies. Return average price and company id.
+#Sample table: item_mast
+SELECT 
+    pro_com, AVG(pro_price)
+FROM
+    item_mast
+GROUP BY pro_com;
+
+CREATE TABLE emp_department (
+    dpt_code INT,
+    dpt_name VARCHAR(45),
+    dpt_allotment INT
+);
+
+insert into emp_department values ( 57, 'IT',65000),
+      (63,'Finance',15000),(47,'HR',240000),
+      (27,'RD',55000),
+      (89,'QC',75000);
+
+
+#24. From the following table, write a SQL query to compute the sum of the allotment amount of all departments. Return sum of the allotment amount.
+#Sample table: emp_department
+select sum(dpt_allotment) from emp_department;
+
+
+#25. From the following table, write a SQL query to count the number of employees in each department. Return department code and number of employees.
+#Sample table: emp_details
+select emp_dept,count(*)as no_of_employee from emp_details group by emp_dept
+
+
+
+
