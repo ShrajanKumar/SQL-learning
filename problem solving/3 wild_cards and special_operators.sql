@@ -234,3 +234,5 @@ FROM
     emp_details
 WHERE
     EMP_LNAME LIKE 'D%';
+    
+
