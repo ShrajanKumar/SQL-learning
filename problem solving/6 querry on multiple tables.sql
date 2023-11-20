@@ -113,6 +113,8 @@ FROM
     orders o ON c.customer_id = o.customer_id 
     join salesman s on s.salesman_id=o.salesman_id
     where o.ord_date='2012-10-05';
+    
+    
 
 
 
