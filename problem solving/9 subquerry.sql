@@ -202,5 +202,131 @@ WHERE
         GROUP BY salesman_id
         HAVING COUNT(*) > 1); 
         
-#15
-          
+#15  From the following tables write a SQL query to find those orders, which are higher than the average amount of the orders of that customer. Return ord_no, purch_amt, ord_date, customer_id and salesman_id.
+
+SELECT 
+    a.ord_no,
+    a.purch_amnt,
+    a.ord_date,
+    a.customer_id,
+    a.salesman_id
+FROM
+    orders a
+        JOIN
+    (SELECT 
+        customer_id, AVG(purch_amnt) AS avg_amnt
+    FROM
+        orders
+    GROUP BY customer_id) AS b
+    on a.customer_id=b.customer_id and a.purch_amnt>b.avg_amnt;
+#or
+SELECT 
+    a.ord_no,
+    a.purch_amnt,
+    a.ord_date,
+    a.customer_id,
+    a.salesman_id
+FROM
+    orders a
+WHERE
+    purch_amnt > (SELECT 
+            AVG(purch_amnt)
+        FROM
+            orders b
+        WHERE
+            b.customer_id = a.customer_id);
+            
+#16  Write a query to find the sums of the amounts from the orders table, grouped by date, and eliminate all dates where the sum was not at least 1000.00 above the maximum order amount for that date.
+SELECT 
+    ord_date, SUM(purch_amnt)
+FROM
+    orders
+GROUP BY ord_date
+HAVING SUM(purch_amnt) - MAX(purch_amnt) >= 1000;            
+
+#17 write a SQL query to find salespeople who deal with multiple customers. Return salesman_id, name, city and commission. table:customer and salesman
+SELECT 
+    *
+FROM
+    salesman
+WHERE
+    salesman_id IN (SELECT 
+            salesman_id
+        FROM
+            customer
+        GROUP BY salesman_id
+        HAVING COUNT(*) > 1);
+        
+#without groupby 
+SELECT 
+    *
+FROM
+    salesman
+WHERE
+    salesman_id IN (SELECT 
+            distinct a.salesman_id
+        FROM
+            customer a
+                JOIN
+            customer b ON a.salesman_id = b.salesman_id
+                AND a.customer_id <> b.customer_id);
+                
+#18 From the following tables write a SQL query to find salespeople who deal with a single customer. Return salesman_id, name, city and commission.
+
+SELECT 
+    *
+FROM
+    salesman
+WHERE
+    salesman_id NOT IN (SELECT DISTINCT
+            a.salesman_id
+        FROM
+            customer a
+                JOIN
+            customer b ON a.salesman_id = b.salesman_id
+                AND a.customer_id <> b.customer_id);
+                
+#19 From the following tables, write a SQL query to find the salespeople who deal the customers with more than one order. Return salesman_id, name, city and commission.
+SELECT 
+    *
+FROM
+    salesman
+WHERE
+    salesman_id IN (SELECT 
+            a.salesman_id
+        FROM
+            orders a
+                JOIN
+            orders b
+        WHERE
+            a.customer_id = b.customer_id
+                AND a.ord_no <> b.ord_no
+                AND a.salesman_id = b.salesman_id);
+                
+SELECT 
+    *
+FROM
+    salesman
+WHERE
+    salesman_id IN (SELECT 
+            salesman_id
+        FROM
+            customer
+        WHERE
+            customer_id IN (SELECT 
+                    customer_id
+                FROM
+                    orders
+                GROUP BY customer_id
+                HAVING COUNT(*) > 1));
+                
+#20  From the following tables write a SQL query to find the salespeople who deal with those customers who live in the same city. Return salesman_id, name, city and commission. 
+SELECT 
+    distinct s.*
+FROM
+    salesman s
+        JOIN
+    customer c
+WHERE
+    s.salesman_id = c.salesman_id
+        AND c.city = s.city;
